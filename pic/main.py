@@ -3,31 +3,31 @@
 # @Author  	: mr0cheng
 # @email	: c15271843451@gmail.com
 
-import os,sys,time
+import time
 
 import csv
 import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerLine2D
 
-CURRENT_PATH=sys.path[0]
-ARTIST_FOLDER=os.path.join(CURRENT_PATH,'artist')
-
-ARTIST=os.path.join(CURRENT_PATH,'mars_tianchi_songs.csv')
-SONGS=os.path.join(CURRENT_PATH,'mars_tianchi_user_actions.csv')
-
-SONG_P_D_C=os.path.join(CURRENT_PATH,'song_p_d_c.txt')
-ARTIST_P_D_C=os.path.join(CURRENT_PATH,'artist_p_d_c.txt')
-
-SONG_FAN=os.path.join(CURRENT_PATH,'song_fan.txt')
-ARTIST_FAN=os.path.join(CURRENT_PATH,'artist_fan.txt')
-
-DAYS=183		#HOW MANY DAYS YOU WANT TO RECORD.
-
-
-START_UNIX 	=1425139200
-DAY_SECOND 	=86400
-
-
+#--------stable-------------------
+import os,sys
+path = os.getcwd()
+parent_path = os.path.dirname(path)
+sys.path.append(parent_path)
+import static_data as sd
+CURRENT_PATH=sd.CURRENT_PATH
+ARTIST_FOLDER=sd.ARTIST_FOLDER
+ARTIST=sd.ARTIST
+SONGS=sd.SONGS
+SONG_P_D_C=sd.SONG_P_D_C
+ARTIST_P_D_C=sd.ARTIST_P_D_C
+SONG_FAN=sd.SONG_FAN
+ARTIST_FAN=sd.ARTIST_FAN
+DAYS=sd.DAYS
+START_UNIX  =sd.START_UNIX
+DAY_SECOND  =sd.DAY_SECOND
+START_WEEK=sd.START_WEEK
+#--------stable-------------------
 
 '''
 date:
