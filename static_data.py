@@ -7,7 +7,7 @@ import sys,os
 
 
 CURRENT_PATH=sys.path[-1]
-ARTIST_FOLDER=os.path.join(CURRENT_PATH,'artist')
+ARTIST_FOLDER=os.path.join(CURRENT_PATH,'pic','artist')
 
 ARTIST=os.path.join(CURRENT_PATH,'mars_tianchi_songs.csv')
 SONGS=os.path.join(CURRENT_PATH,'mars_tianchi_user_actions.csv')

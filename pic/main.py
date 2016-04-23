@@ -4,7 +4,7 @@
 # @email	: c15271843451@gmail.com
 
 import time
-
+import numpy as np
 import csv
 import matplotlib.pyplot as plt
 from matplotlib.legend_handler import HandlerLine2D
@@ -58,7 +58,7 @@ class artist(object):
             os.mkdir(self.SONG_PLAY_FOLDER)
         if not os.path.exists(self.SONG_FAN_FOLDER):
             os.mkdir(self.SONG_FAN_FOLDER)
-                
+
     def plot_artist_play(self):
         ylabel = "count"
         xlabel = "days"
@@ -70,11 +70,14 @@ class artist(object):
                 collect = list(map(int, fr.readline().strip("\n").split(",")))
 
                 if artist_id==self.ARTIST_ID:
+                    play=np.array(play)
+                    mu=np.mean(play)
+                    sigma=np.sqrt((play*play).sum()/DAYS-mu*mu)
                     p = plt.plot(play, "bo", play, "b-", marker="o")
                     d = plt.plot(download, "ro", download, "r-", marker="o")
                     c = plt.plot(collect, "go", collect, "g-", marker="o")
                     plt.legend([p[1], d[1],c[1]], ["play", "download","collect"])
-                    plt.title(artist_id)
+                    plt.title(''.join(('mu=',str(mu),',','sigma=',str(sigma))))
 
                     plt.xlabel(xlabel)
                     plt.ylabel(ylabel)
@@ -82,7 +85,7 @@ class artist(object):
                     plt.clf()
                     break
                 artist_id = fr.readline().strip("\n")
-		
+
     def plot_artist_fan(self):
         ylabel = "count"
         xlabel = "days"
@@ -91,16 +94,19 @@ class artist(object):
             while artist_id:
                 fan = list(map(int, fr.readline().strip("\n").split(",")))
                 if artist_id==self.ARTIST_ID:
+                    fan=np.array(fan)
+                    mu=np.mean(fan)
+                    sigma=np.sqrt((fan*fan).sum()/DAYS-mu*mu)
                     f = plt.plot(fan, "bo", fan, "b-", marker="o")
                     plt.xlabel(xlabel)
                     plt.ylabel(ylabel)
-                    plt.title(artist_id)
                     plt.legend([f[1]], ["artist fans"])
+                    plt.title(''.join(('mu=',str(mu),',','sigma=',str(sigma))))
                     plt.savefig(os.path.join(self.FPATH, "fan.png"))
                     plt.clf()
                     break
                 artist_id=fr.readline().strip("\n")
-                
+
     def plot_song_play(self):
         ylabel = "count"
         xlabel = "days"
@@ -112,17 +118,20 @@ class artist(object):
                 download = list(map(int, fr.readline().strip("\n").split(",")))
                 collect = list(map(int, fr.readline().strip("\n").split(",")))
                 if songs_id in songs:
+                    play=np.array(play)
+                    mu=np.mean(play)
+                    sigma=np.sqrt((play*play).sum()/DAYS-mu*mu)
                     p = plt.plot(play, "bo", play, "b-", marker="o")
                     d = plt.plot(download, "ro", download, "r-", marker="o")
                     c = plt.plot(collect, "go", collect, "g-", marker="o")
                     plt.legend([p[1], d[1],c[1]], ["play", "download","collect"])
-                    plt.title(songs_id)
+                    plt.title(''.join(('mu=',str(mu),',','sigma=',str(sigma))))
                     plt.xlabel(xlabel)
                     plt.ylabel(ylabel)
                     plt.savefig(os.path.join(self.SONG_PLAY_FOLDER, songs_id+".png"))
                     plt.clf()
                 songs_id=fr.readline().strip("\n")
-                
+
     def plot_song_fan(self):
         ylabel = "count"
         xlabel = "days"
@@ -132,15 +141,18 @@ class artist(object):
             while songs_id:
                 fan = list(map(int, fr.readline().strip("\n").split(",")))
                 if songs_id in songs:
+                    fan=np.array(fan)
+                    mu=np.mean(fan)
+                    sigma=np.sqrt((fan*fan).sum()/DAYS-mu*mu)
                     f = plt.plot(fan, "bo", fan, "b-", marker="o")
                     plt.xlabel(xlabel)
                     plt.ylabel(ylabel)
-                    plt.title(songs_id)
+                    plt.title(''.join(('mu=',str(mu),',','sigma=',str(sigma))))
                     plt.legend([f[1]], ["song fans"])
                     plt.savefig(os.path.join(self.SONG_FAN_FOLDER, songs_id+".png"))
                     plt.clf()
                 songs_id=fr.readline().strip("\n")
-                
+
     """
     {songs_id:bool,songs_id:bool,...,songs_id:bool}
     """
@@ -170,7 +182,7 @@ def ifNoSongTXT():
             if row[1] not in songs:
                 songs[row[1]] = [[0 for i in range(DAYS)] for j in range(3)]
             songs[row[1]][int(row[3])-1][date2Num(row[4])] += 1
-            
+
             if row[3] == "1":
                 if row[1] not in user:
                     user[row[1]] = [{} for i in range(DAYS)]
@@ -259,10 +271,10 @@ def testForSongTXT():
             songs_id=fr.readline().strip("\n")
     print(count)    #5652232
 
-	
+
 if __name__ == "__main__":
-    ifNoSongTXT()
-    ifNoArtistTXT()
+    #ifNoSongTXT()
+    #ifNoArtistTXT()
     a = artist("0c80008b0a28d356026f4b1097041689")
     a.plot_artist_play()
     a.plot_artist_fan()
